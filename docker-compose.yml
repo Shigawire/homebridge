@@ -1,0 +1,50 @@
+version: '2.4'
+
+services:
+  redis:
+    build:
+      context: .
+      dockerfile: redis.Dockerfile
+#     This is disallowed on balena, hence we build our own redis image
+#    volumes:
+#      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    network_mode: host
+    ports:
+      - "6379:6379"
+  tailscale:
+    image: tailscale/tailscale
+    privileged: true
+    network_mode: host
+    environment:
+      TS_HOSTNAME: zurich-homebridge
+      TS_USERSPACE: true
+      TS_AUTHKEY: $TS_AUTHKEY
+      TS_SOCKET: /var/run/tailscale/tailscaled.sock
+    volumes:
+      - tailscale-socket:/var/run/tailscale
+    healthcheck:
+      test: ["CMD-SHELL", "tailscale --socket /var/run/tailscale/tailscaled.sock status"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 5s
+  vpn_controller: &vpn
+    build: .
+    command: ["ruby", "/usr/local/bin/vpn_controller.rb"]
+    privileged: true
+    volumes:
+      - tailscale-socket:/var/run/tailscale
+    network_mode: host
+    ports:
+      - "4567:4567"
+    environment:
+      REDIS_URL: redis://localhost:6379/0
+    depends_on:
+      - tailscale
+      - redis
+  vpn_client:
+    <<: *vpn
+    command: ["/usr/local/bin/vpn_client.sh"]
+volumes:
+  tailscale-socket:
