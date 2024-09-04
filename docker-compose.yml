@@ -21,6 +21,7 @@ services:
       TS_USERSPACE: true
       TS_AUTHKEY: $TS_AUTHKEY
       TS_SOCKET: /var/run/tailscale/tailscaled.sock
+      TS_SOCKS5_SERVER: :1055
     volumes:
       - tailscale-socket:/var/run/tailscale
     healthcheck:
