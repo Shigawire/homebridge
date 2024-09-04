@@ -31,10 +31,10 @@ while true; do
     fi
 
     # Start snx-rs command with new credentials
-    snx-rs -s "$SNX_ENDPOINT" -o vpn_Two_Factor_Authentication -u "$USERNAME" -p "$PASSWORD$MFA" --no-cert-check true --ignore-server-cert true -e ssl -l trace &
+    snx-rs -s "$SNX_ENDPOINT" -o vpn_Two_Factor_Authentication -u "$USERNAME" -p "$PASSWORD$MFA" --no-cert-check true --ignore-server-cert true -e ssl -l warn &
 
     SNX_PID=$!
-    sleep 5  # Wait for snx-rs to establish the connection
+    sleep 15  # Wait for snx-rs to establish the connection
 
     if kill -0 $SNX_PID 2>/dev/null; then
       # Capture routes
