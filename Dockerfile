@@ -1,5 +1,5 @@
 ARG DEBIAN_FRONTEND=noninteractive
-ARG SNX_VERSION=2.2.6
+ARG SNX_VERSION=2.9.0
 
 FROM balenalib/armv7hf-ubuntu:jammy as base
 ARG DEBIAN_FRONTEND

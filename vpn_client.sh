@@ -31,7 +31,7 @@ while true; do
     fi
 
     # Start snx-rs command with new credentials
-    snx-rs -s "$SNX_ENDPOINT" -o vpn_Two_Factor_Authentication -u "$USERNAME" -p "$PASSWORD$MFA" --no-cert-check true --ignore-server-cert true -e ssl -l warn &
+    snx-rs -s "$SNX_ENDPOINT" -o vpn_Two_Factor_Authentication -u "$USERNAME" -p "$PASSWORD$MFA" --no-cert-check true --ignore-server-cert true -e ssl -l error &
 
     SNX_PID=$!
     sleep 15  # Wait for snx-rs to establish the connection
