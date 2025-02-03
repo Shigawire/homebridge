@@ -5,6 +5,7 @@ require 'redis'
 set :bind, '0.0.0.0'
 set :port, 4567
 
+set :host_authorization, { permitted_hosts: [] }
 redis = Redis.new(url: ENV['REDIS_URL'])
 
 get '/' do
