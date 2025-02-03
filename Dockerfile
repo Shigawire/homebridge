@@ -29,7 +29,7 @@ RUN cd /tmp/snx-rs-$SNX_VERSION && \
 FROM base
 COPY --from=snx-rs-build /tmp/snx-rs-$SNX_VERSION/target/release/snx-rs /usr/local/bin/snx-rs
 
-RUN apt update && apt install -y iproute2 redis-tools jq curl
+RUN apt update && apt install -y iproute2 redis-tools jq curl sudo
 RUN curl -fsSL https://tailscale.com/install.sh | sh
 
 RUN echo 'net.ipv4.ip_forward = 1' | sudo tee -a /etc/sysctl.d/99-tailscale.conf && \
