@@ -41,32 +41,33 @@ services:
       - "4567:4567"
     environment:
       REDIS_URL: redis://localhost:6379/0
+      SNX_ENDPOINT: $SNX_ENDPOINT
     depends_on:
       - tailscale
       - redis
   vpn_client:
     <<: *vpn
     command: ["/usr/local/bin/vpn_client.sh"]
-  wireguard:
-    image: ghcr.io/wg-easy/wg-easy
-    environment:
-      LANG: de
-      PORT: 51821
-      WG_PORT: 51820
-      WG_HOST: $WG_HOST
-      PASSWORD_HASH: $PASSWORD_HASH
-    ports:
-      - "51821:51821/tcp"
-      - "51820:51820/udp"
-    network_mode: host
-    capabilities:
-      add:
-        - NET_ADMIN
-        - SYS_MODULE
-    restart: unless-stopped
-    volumes:
-      - wireguard:/etc/wireguard
+  # Doesn't work - probably due to network: host
+  # wireguard:
+  #   image: ghcr.io/wg-easy/wg-easy
+  #   environment:
+  #     LANG: de
+  #     PORT: 51821
+  #     WG_PORT: 51820
+  #     WG_HOST: $WG_HOST
+  #     PASSWORD_HASH: $PASSWORD_HASH
+  #   ports:
+  #     - "51821:51821/tcp"
+  #     - "51820:51820/udp"
+  #   network_mode: host
+  #   cap_add:
+  #     - NET_ADMIN
+  #     - SYS_MODULE
+  #   restart: unless-stopped
+  #   volumes:
+  #     - wireguard:/etc/wireguard
 
 volumes:
   tailscale-socket:
-  wireguard:
+  # wireguard:
