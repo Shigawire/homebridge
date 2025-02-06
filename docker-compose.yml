@@ -30,8 +30,6 @@ services:
       timeout: 5s
       retries: 12
       start_period: 5s
-    after_start:
-      - tailscale set --advertise-exit-node=true --accept-routes=true
   vpn_controller: &vpn
     build: .
     command: ["ruby", "/usr/local/bin/vpn_controller.rb"]
