@@ -42,6 +42,7 @@ services:
     environment:
       REDIS_URL: redis://localhost:6379/0
       SNX_ENDPOINT: $SNX_ENDPOINT
+      TS_AUTHKEY: $TS_AUTHKEY
     depends_on:
       - tailscale
       - redis
